@@ -1,6 +1,6 @@
 //Tema 1
 //Realizata cu:
-// gcc (GCC) 14.2.1 20240910
+//gcc (GCC) 14.2.1 20240910
 
 
 
@@ -60,12 +60,11 @@ class Autobuz{
             this->producator = 0;
         }
 
-        Autobuz(Autobuz &autobuz):idAutobuz(nrAutobuze){
+        Autobuz(Autobuz &autobuz):idAutobuz(nrAutobuze++){
             capacitate = autobuz.capacitate;
             nrPersoaneImbarcate = autobuz.nrPersoaneImbarcate;
             producator = new char[MARIME_PRODUCATOR];
             strcpy(producator, autobuz.producator);
-            nrAutobuze++;
         }
 
 
@@ -74,23 +73,22 @@ class Autobuz{
             delete[] producator;
         }
 
-        Autobuz operator=(const Autobuz &autobuz){
+        Autobuz operator=(const Autobuz autobuz){
             if(this == &autobuz)
                 return *this;
             capacitate = autobuz.capacitate;
             nrPersoaneImbarcate = autobuz.nrPersoaneImbarcate;
-            if(producator)
-                delete[] producator;
+            delete[] producator;
             producator = new char[MARIME_PRODUCATOR];
             strcpy(producator, autobuz.producator);
             return *this;
         }
 
-        friend ostream& operator<<(ostream& os, const Autobuz *autobuz){
-            return os<<autobuz->idAutobuz<<"; "<<autobuz->capacitate<<"; "<<autobuz->nrPersoaneImbarcate<<"; "<<autobuz->producator;
+        friend ostream& operator<<(ostream& os, const Autobuz autobuz){
+            return os<<autobuz.idAutobuz<<"; "<<autobuz.capacitate<<"; "<<autobuz.nrPersoaneImbarcate<<"; "<<autobuz.producator;
         }
         
-        bool operator> (const Autobuz& a){
+        bool operator> (const Autobuz a){
             return capacitate > a.capacitate;
         }
 
@@ -144,9 +142,6 @@ class Autobuz{
 };
 
 
-
-//int Autobuz::nrAutobuze = 0;
-
 void displayConstructorError(int type){
     if(type){
         cout<<"Erori de validare:\r\n";
@@ -184,7 +179,7 @@ void testConstructor(int capacitate, int nrPersoaneImbarcate, char *producator){
 
 
 int main(){
-    //test validare 
+    cout<<"test validare\r\n";
     
     testConstructor(5, 50 , 0);
     cout<<"\r\n";
@@ -197,7 +192,6 @@ int main(){
     testConstructor(25, 25, "BMC Truck&Bus");
 
     cout<<"\r\n----------------------------------------\r\n";
-    
     cout<<"test constructor de copiere si metode get\r\n";
     {
         Autobuz *autobuz1 = new Autobuz(2, 1, "Ikarus");
@@ -209,16 +203,25 @@ int main(){
         delete autobuz2;
     }
     cout<<"\r\n----------------------------------------\r\n";
+    cout<<"testare operator=\r\n";
+    {
+        Autobuz *autobuz1 = new Autobuz(2, 1, "Ikarus");
+        Autobuz *autobuz2 = new Autobuz();
+        *autobuz2 = *autobuz1;
+        autobuz2->display();
+        delete autobuz1;
+        delete autobuz2;
+    }
+    cout<<"\r\n----------------------------------------\r\n";
     cout<<"testare operator<< (nu am inteles daca operatorul ar trebui sa afiseze sau daca ar trebui folosit pentru afisare asa ca am mers pe a doua varianta)\r\n";
     {
         Autobuz *autobuz1 = new Autobuz(2, 1, "Ikarus");
         Autobuz *autobuz2 = new Autobuz(5, 1, "Mercedes");
-        cout<<autobuz1<<"\r\n";
-        cout<<autobuz2<<"\r\n";
+        cout<<*autobuz1<<"\r\n";
+        cout<<*autobuz2<<"\r\n";
         delete autobuz1;
         delete autobuz2;
     }
-
     cout<<"\r\n----------------------------------------\r\n";
     cout<<"testare getNumarLocuriLibere()\r\n";
     {
@@ -231,23 +234,19 @@ int main(){
     {
         Autobuz *autobuz = new Autobuz(5, 1, "Mercedes");
         cout<<(int) *autobuz<<"\r\n";
-        cout<<0 + *autobuz<<"\r\n";
-
+        cout<<0 + *autobuz<<"\r\n"; 
         delete autobuz;
     }
     cout<<"\r\n----------------------------------------\r\n";
     cout<<"test operator>\r\n";
     {
-        Autobuz *autobuz1 = new Autobuz(2, 1, "Ikarus");
         Autobuz *autobuz2 = new Autobuz(5, 1, "Mercedes");
-        cout<<"autobuz2>autobuz1: "<<(autobuz2>autobuz1 ? "adev" : "fals")<<"\r\n";
-        cout<<"autobuz1>autobuz2: "<<(autobuz1>autobuz2 ? "adev" : "fals")<<"\r\n";
+        Autobuz *autobuz1 = new Autobuz(2, 1, "Ikarus");      
+        cout<<"autobuz2>autobuz1: "<<(*autobuz2>*autobuz1 ? "adev" : "fals")<<"\r\n";
+        cout<<"autobuz1>autobuz2: "<<(*autobuz1>*autobuz2 ? "adev" : "fals")<<"\r\n";
         delete autobuz1;
         delete autobuz2;
     }
-
-    
-
     
     return 0;
 }
