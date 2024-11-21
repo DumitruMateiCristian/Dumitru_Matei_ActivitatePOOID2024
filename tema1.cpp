@@ -10,6 +10,8 @@
 #include <cstring>
 using std::cout;
 using std::ostream;
+
+
 class Autobuz{
     private:
         inline static int nrAutobuze = 0;
@@ -88,8 +90,8 @@ class Autobuz{
             return os;
         }
         
-        friend bool operator> (const Autobuz& a1, const Autobuz& a2){
-            return a1.capacitate > a2.capacitate;
+        bool operator> (const Autobuz& a){
+            return capacitate > a.capacitate;
         }
 
         operator int(){
