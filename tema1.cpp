@@ -70,11 +70,12 @@ class Autobuz{
 
 
         ~Autobuz(){
+            // delete verifica daca pointerul este null
             delete[] producator;
         }
 
         Autobuz operator=(const Autobuz &autobuz){
-            if(idAutobuz == autobuz.idAutobuz)
+            if(this == &autobuz)
                 return *this;
             capacitate = autobuz.capacitate;
             nrPersoaneImbarcate = autobuz.nrPersoaneImbarcate;
@@ -86,8 +87,7 @@ class Autobuz{
         }
 
         friend ostream& operator<<(ostream& os, const Autobuz *autobuz){
-            os<<autobuz->idAutobuz<<"; "<<autobuz->capacitate<<"; "<<autobuz->nrPersoaneImbarcate<<"; "<<autobuz->producator;
-            return os;
+            return os<<autobuz->idAutobuz<<"; "<<autobuz->capacitate<<"; "<<autobuz->nrPersoaneImbarcate<<"; "<<autobuz->producator;
         }
         
         bool operator> (const Autobuz& a){
